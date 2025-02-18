@@ -28,7 +28,7 @@ fn main() {
         // the entire alicorn standard library had to be required in the layout due to compiler limitations.
         // These limitations have been removed, but the actual alicorn rust crate hasn't been updated to take
         // advantage of this yet.
-        let ast = alicorn.parse(include_str!("layout.alc")).unwrap();
+        let ast = alicorn.parse(include_str!("layout.alc"), Some("layout.alc")).unwrap();
         let terms = alicorn.process(ast).unwrap();
         let program = alicorn.evaluate(terms).unwrap();
 
