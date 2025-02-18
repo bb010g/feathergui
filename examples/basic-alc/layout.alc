@@ -823,11 +823,11 @@ let wgpu-mat4 = new-host-type(new-host-unique-id("wgpu-mat4"))
 let host-add-float = intrinsic
 	""""
 		local host_add_float = function(l, r) return l + r end
-		glsl_registry[host_add_float] = function(pp, varnames, l, r)
+		glsl_registry[host_add_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" + ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_add_float
@@ -840,11 +840,11 @@ let _+_ = lambda (left : wgpu-float, right : wgpu-float)
 let host-sub-float = intrinsic
 	""""
 		local host_sub_float = function(l, r) return l - r end
-		glsl_registry[host_sub_float] = function(pp, varnames, l, r)
+		glsl_registry[host_sub_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" - ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_sub_float
@@ -857,11 +857,11 @@ let _-_ = lambda (left : wgpu-float, right : wgpu-float)
 let host-mul-float = intrinsic
 	""""
 		local host_mul_float = function(l, r) return l * r end
-		glsl_registry[host_mul_float] = function(pp, varnames, l, r)
+		glsl_registry[host_mul_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" * ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_mul_float
@@ -877,11 +877,11 @@ let host-mul-vec2 = intrinsic
 				x = l.x * r.x,
 				y = l.y * r.y,
 			}, glsl_registry["vec2f"]) end
-		glsl_registry[host_mul_vec2] = function(pp, varnames, l, r)
+		glsl_registry[host_mul_vec2] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" * ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_mul_vec2
@@ -899,11 +899,11 @@ let host-mul-vec4 = intrinsic
 				z = l.z * r.z,
 				w = l.w * r.w,
 			}, glsl_registry["vec4f"]) end
-		glsl_registry[host_mul_vec4] = function(pp, varnames, l, r)
+		glsl_registry[host_mul_vec4] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" * ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_mul_vec4
@@ -941,11 +941,11 @@ let host-mul-gen = intrinsic
 				return l * r 
 			end
 		end
-		glsl_registry[host_mul] = function(pp, varnames, l, r)
+		glsl_registry[host_mul] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" * ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_mul
@@ -970,11 +970,11 @@ let host-mul-gen = intrinsic
 let host-div-float = intrinsic
 	""""
 		local host_div_float = function(l, r) return l / r end
-		glsl_registry[host_div_float] = function(pp, varnames, l, r)
+		glsl_registry[host_div_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" / ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_div_float
@@ -987,11 +987,11 @@ let _/_ = lambda (left : wgpu-float, right : wgpu-float)
 let host-lt-float = intrinsic
 	""""
 		local host_lt_float = function(l, r) return l < r end
-		glsl_registry[host_lt_float] = function(pp, varnames, l, r)
+		glsl_registry[host_lt_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" < ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_lt_float
@@ -1004,11 +1004,11 @@ let _<_ = lambda (left : wgpu-float, right : wgpu-float)
 let host-gt-float = intrinsic
 	""""
 		local host_gt_float = function(l, r) return l > r end
-		glsl_registry[host_gt_float] = function(pp, varnames, l, r)
+		glsl_registry[host_gt_float] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" > ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_gt_float
@@ -1029,13 +1029,13 @@ let host-clamp = intrinsic
 				return x
 			end
 		end
-		glsl_registry[host_clamp] = function(pp, varnames, x, minVal, maxVal)
+		glsl_registry[host_clamp] = function(pp, context, x, minVal, maxVal)
 			pp:unit("clamp(")
-			pp:any(x, varnames)
+			pp:any(x, context)
 			pp:unit(", ")
-			pp:any(minVal, varnames)
+			pp:any(minVal, context)
 			pp:unit(", ")
-			pp:any(maxVal, varnames)
+			pp:any(maxVal, context)
 			pp:unit(")")
 		end
 		return host_clamp
@@ -1054,11 +1054,11 @@ let host-max = intrinsic
 				return x
 			end
 		end
-		glsl_registry[host_max] = function(pp, varnames, x, minVal)
+		glsl_registry[host_max] = function(pp, context, x, minVal)
 			pp:unit("max(")
-			pp:any(x, varnames)
+			pp:any(x, context)
 			pp:unit(", ")
-			pp:any(minVal, varnames)
+			pp:any(minVal, context)
 			pp:unit(")")
 		end
 		return host_max
@@ -1077,11 +1077,11 @@ let host-min = intrinsic
 				return x
 			end
 		end
-		glsl_registry[host_min] = function(pp, varnames, x, minVal)
+		glsl_registry[host_min] = function(pp, context, x, minVal)
 			pp:unit("min(")
-			pp:any(x, varnames)
+			pp:any(x, context)
 			pp:unit(", ")
-			pp:any(minVal, varnames)
+			pp:any(minVal, context)
 			pp:unit(")")
 		end
 		return host_min
@@ -1100,13 +1100,13 @@ let host-ternary = intrinsic
 				return alternate
 			end
 		end
-		glsl_registry[host_ternary] = function(pp, varnames, condition, consequent, alternate)
+		glsl_registry[host_ternary] = function(pp, context, condition, consequent, alternate)
 			pp:unit("select(")
-			pp:any(alternate, varnames)
+			pp:any(alternate, context)
 			pp:unit(", ")
-			pp:any(consequent, varnames)
+			pp:any(consequent, context)
 			pp:unit(", ")
-			pp:any(condition, varnames)
+			pp:any(condition, context)
 			pp:unit(")")
 		end
 		return host_ternary
@@ -1120,9 +1120,9 @@ let host-fwidth = intrinsic
 	""""
 		-- This returns the derivative of the values relative to the current surface dimensions, which is not possible to do here
 		local host_fwidth = function(v) return 1.0	end
-		glsl_registry[host_fwidth] = function(pp, varnames, v)
+		glsl_registry[host_fwidth] = function(pp, context, v)
 			pp:unit("fwidth(")
-			pp:any(v, varnames)
+			pp:any(v, context)
 			pp:unit(")")
 		end
 		return host_fwidth
@@ -1135,11 +1135,11 @@ let fwidth = lambda (v : wgpu-float)
 let host-dot = intrinsic
 	""""
 		local host_dot = function(l, r) return l.x * r.x + l.y * r.y	end
-		glsl_registry[host_dot] = function(pp, varnames, l, r)
+		glsl_registry[host_dot] = function(pp, context, l, r)
 			pp:unit("dot(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(", ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_dot
@@ -1155,9 +1155,9 @@ let host-normalize = intrinsic
 			local l = math.sqrt(v.x * v.x + v.y * v.y) 
 			return setmetatable({x = v.x / l, y = v.y / l}, glsl_registry["vec2f"])
 		end
-		glsl_registry[host_normalize] = function(pp, varnames, v)
+		glsl_registry[host_normalize] = function(pp, context, v)
 			pp:unit("normalize(")
-			pp:any(v, varnames)
+			pp:any(v, context)
 			pp:unit(")")
 		end
 		return host_normalize
@@ -1170,9 +1170,9 @@ let normalize = lambda (v : wgpu-vec2)
 let host-length = intrinsic
 	""""
 		local host_length = function(v) return math.sqrt(v.x * v.x + v.y * v.y) end
-		glsl_registry[host_length] = function(pp, varnames, v)
+		glsl_registry[host_length] = function(pp, context, v)
 			pp:unit("length(")
-			pp:any(v, varnames)
+			pp:any(v, context)
 			pp:unit(")")
 		end
 		return host_length
@@ -1186,15 +1186,15 @@ let host-mk-vec2 = intrinsic
 	""""
 		local vec2_mt = {}
 		local host_mk_vec2 = function(x, y) return setmetatable({ x = x, y = y }, vec2_mt) end
-		glsl_registry[host_mk_vec2] = function(pp, varnames, x, y)
+		glsl_registry[host_mk_vec2] = function(pp, context, x, y)
 			pp:unit("vec2f(")
-			pp:any(x, varnames)
+			pp:any(x, context)
 			pp:unit(", ")
-			pp:any(y, varnames)
+			pp:any(y, context)
 			pp:unit(")")
 		end
-		glsl_registry[vec2_mt] = function(pp, vec, varnames)
-			return glsl_registry[host_mk_vec2](pp, varnames, vec.x, vec.y)
+		glsl_registry[vec2_mt] = function(pp, vec, context)
+			return glsl_registry[host_mk_vec2](pp, context, vec.x, vec.y)
 		end
 		glsl_registry["vec2f"] = vec2_mt
 		return host_mk_vec2
@@ -1210,8 +1210,8 @@ let mk-vec2-float = lambda (x : wgpu-float)
 let host-get-vec2-x = intrinsic
 	""""
 		local host_get_vec2_x = function(vec) return vec.x end
-		glsl_registry[host_get_vec2_x] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec2_x] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".x")
 		end
 		return host_get_vec2_x
@@ -1220,8 +1220,8 @@ let host-get-vec2-x = intrinsic
 let host-get-vec2-y = intrinsic
 	""""
 		local host_get_vec2_y = function(vec) return vec.y end
-		glsl_registry[host_get_vec2_y] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec2_y] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".y")
 		end
 		return host_get_vec2_y
@@ -1240,11 +1240,11 @@ let host-add-vec2 = intrinsic
 				y = l.y + r.y,
 			}, glsl_registry["vec2f"])
 		end
-		glsl_registry[host_add_vec2] = function(pp, varnames, l, r)
+		glsl_registry[host_add_vec2] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" + ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_add_vec2
@@ -1264,11 +1264,11 @@ let host-add-vec4 = intrinsic
 				w = l.w + r.w,
 			}, glsl_registry["vec4f"])
 		end
-		glsl_registry[host_add_vec4] = function(pp, varnames, l, r)
+		glsl_registry[host_add_vec4] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" + ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_add_vec4
@@ -1286,11 +1286,11 @@ let host-sub-vec2 = intrinsic
 				y = l.y - r.y,
 			}, glsl_registry["vec2f"])
 		end
-		glsl_registry[host_sub_vec2] = function(pp, varnames, l, r)
+		glsl_registry[host_sub_vec2] = function(pp, context, l, r)
 			pp:unit("(")
-			pp:any(l, varnames)
+			pp:any(l, context)
 			pp:unit(" - ")
-			pp:any(r, varnames)
+			pp:any(r, context)
 			pp:unit(")")
 		end
 		return host_sub_vec2
@@ -1308,9 +1308,9 @@ let host-abs-vec2 = intrinsic
 				y = math.abs(vec.y),
 			}, glsl_registry["vec2f"])
 		end
-		glsl_registry[host_abs_vec2] = function(pp, varnames, vec)
+		glsl_registry[host_abs_vec2] = function(pp, context, vec)
 			pp:unit("abs(")
-			pp:any(vec, varnames)
+			pp:any(vec, context)
 			pp:unit(")")
 		end
 		return host_abs_vec2
@@ -1325,9 +1325,9 @@ let host-abs-float = intrinsic
 		local host_abs_float = function(v)
 			return math.abs(v)
 		end
-		glsl_registry[host_abs_float] = function(pp, varnames, v)
+		glsl_registry[host_abs_float] = function(pp, context, v)
 			pp:unit("abs(")
-			pp:any(v, varnames)
+			pp:any(v, context)
 			pp:unit(")")
 		end
 		return host_abs_float
@@ -1342,11 +1342,11 @@ let host-pow-float = intrinsic
 		local host_pow_float = function(v, p)
 			return math.pow(v, p)
 		end
-		glsl_registry[host_pow_float] = function(pp, varnames, v, p)
+		glsl_registry[host_pow_float] = function(pp, context, v, p)
 			pp:unit("pow(")
-			pp:any(v, varnames)
+			pp:any(v, context)
 			pp:unit(", ")
-			pp:any(p, varnames)
+			pp:any(p, context)
 			pp:unit(")")
 		end
 		return host_pow_float
@@ -1360,19 +1360,19 @@ let host-mk-vec4 = intrinsic
 	""""
 		local vec4_mt = {}
 		local host_mk_vec4 = function(x, y, z, w) return setmetatable({ x = x, y = y, z = z, w = w }, vec4_mt) end
-		glsl_registry[host_mk_vec4] = function(pp, varnames, x, y, z, w)
+		glsl_registry[host_mk_vec4] = function(pp, context, x, y, z, w)
 			pp:unit("vec4f(")
-			pp:any(x, varnames)
+			pp:any(x, context)
 			pp:unit(", ")
-			pp:any(y, varnames)
+			pp:any(y, context)
 			pp:unit(", ")
-			pp:any(z, varnames)
+			pp:any(z, context)
 			pp:unit(", ")
-			pp:any(w, varnames)
+			pp:any(w, context)
 			pp:unit(")")
 		end
-		glsl_registry[vec4_mt] = function(pp, vec, varnames)
-			return glsl_registry[host_mk_vec4](pp, varnames, vec.x, vec.y, vec.z, vec.w)
+		glsl_registry[vec4_mt] = function(pp, vec, context)
+			return glsl_registry[host_mk_vec4](pp, context, vec.x, vec.y, vec.z, vec.w)
 		end
 		glsl_registry["vec4f"] = vec4_mt
 		return host_mk_vec4
@@ -1388,8 +1388,8 @@ let mk-vec4-float = lambda (x : wgpu-float)
 let host-get-vec4-x = intrinsic
 	""""
 		local host_get_vec4_x = function(vec) return vec.x end
-		glsl_registry[host_get_vec4_x] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec4_x] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".x")
 		end
 		return host_get_vec4_x
@@ -1398,8 +1398,8 @@ let host-get-vec4-x = intrinsic
 let host-get-vec4-y = intrinsic
 	""""
 		local host_get_vec4_y = function(vec) return vec.y end
-		glsl_registry[host_get_vec4_y] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec4_y] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".y")
 		end
 		return host_get_vec4_y
@@ -1408,8 +1408,8 @@ let host-get-vec4-y = intrinsic
 let host-get-vec4-z = intrinsic
 	""""
 		local host_get_vec4_z = function(vec) return vec.z end
-		glsl_registry[host_get_vec4_z] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec4_z] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".z")
 		end
 		return host_get_vec4_z
@@ -1418,8 +1418,8 @@ let host-get-vec4-z = intrinsic
 let host-get-vec4-w = intrinsic
 	""""
 		local host_get_vec4_w = function(vec) return vec.w end
-		glsl_registry[host_get_vec4_w] = function(pp, varnames, vec)
-			pp:any(vec, varnames)
+		glsl_registry[host_get_vec4_w] = function(pp, context, vec)
+			pp:any(vec, context)
 			pp:unit(".w")
 		end
 		return host_get_vec4_w
@@ -1443,18 +1443,18 @@ let host-mk-mat4 = intrinsic
 				aw = a.w, bw = b.w, cw = c.w, dw = d.w,
 			}, mat4_mt)
 		end
-		glsl_registry[host_mk_mat4] = function(pp, varnames, a, b, c, d)
+		glsl_registry[host_mk_mat4] = function(pp, context, a, b, c, d)
 			pp:unit("mat4x4f(")
-			pp:any(a, varnames)
+			pp:any(a, context)
 			pp:unit(", ")
-			pp:any(b, varnames)
+			pp:any(b, context)
 			pp:unit(", ")
-			pp:any(c, varnames)
+			pp:any(c, context)
 			pp:unit(", ")
-			pp:any(d, varnames)
+			pp:any(d, context)
 			pp:unit(")")
 		end
-		glsl_registry[mat4_mt] = function(pp, mat, varnames)
+		glsl_registry[mat4_mt] = function(pp, mat, context)
 			pp:unit("/* NYI: repr a mat4! */")
 		end
 		glsl_registry["mat4x4f"] = mat4_mt
@@ -1475,11 +1475,11 @@ let host-mul-mat4-vec4 = intrinsic
 				w = left.aw * right.x + left.bw * right.y + left.cw * right.z + left.dw * right.w,
 			}, glsl_registry["vec4f"])
 		end
-		glsl_registry[host_mul_mat4_vec4] = function(pp, varnames, left, right)
+		glsl_registry[host_mul_mat4_vec4] = function(pp, context, left, right)
 			pp:unit("(")
-			pp:any(left, varnames)
+			pp:any(left, context)
 			pp:unit(" * ")
-			pp:any(right, varnames)
+			pp:any(right, context)
 			pp:unit(")")
 		end
 		return host_mul_mat4_vec4
@@ -1514,11 +1514,11 @@ let host-mul-mat4-mat4 = intrinsic
 				dw = left.aw * right.dx + left.bw * right.dy + left.cw * right.dz + left.dw * right.dw,
 			}, glsl_registry["mat4x4"])
 		end
-		glsl_registry[host_mul_mat4_mat4] = function(pp, varnames, left, right)
+		glsl_registry[host_mul_mat4_mat4] = function(pp, context, left, right)
 			pp:unit("(")
-			pp:any(left, varnames)
+			pp:any(left, context)
 			pp:unit(" * ")
-			pp:any(right, varnames)
+			pp:any(right, context)
 			pp:unit(")")
 		end
 		return host_mul_mat4_mat4
