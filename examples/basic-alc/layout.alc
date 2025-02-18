@@ -1193,7 +1193,7 @@ let host-mk-vec2 = intrinsic
 			pp:any(y, context)
 			pp:unit(")")
 		end
-		glsl_registry[vec2_mt] = function(pp, vec, context)
+		glsl_registry[vec2_mt] = function(pp, context, vec)
 			return glsl_registry[host_mk_vec2](pp, context, vec.x, vec.y)
 		end
 		glsl_registry["vec2f"] = vec2_mt
@@ -1371,7 +1371,7 @@ let host-mk-vec4 = intrinsic
 			pp:any(w, context)
 			pp:unit(")")
 		end
-		glsl_registry[vec4_mt] = function(pp, vec, context)
+		glsl_registry[vec4_mt] = function(pp, context, vec)
 			return glsl_registry[host_mk_vec4](pp, context, vec.x, vec.y, vec.z, vec.w)
 		end
 		glsl_registry["vec4f"] = vec4_mt
@@ -1454,7 +1454,7 @@ let host-mk-mat4 = intrinsic
 			pp:any(d, context)
 			pp:unit(")")
 		end
-		glsl_registry[mat4_mt] = function(pp, mat, context)
+		glsl_registry[mat4_mt] = function(pp, context, mat)
 			pp:unit("/* NYI: repr a mat4! */")
 		end
 		glsl_registry["mat4x4f"] = mat4_mt
@@ -1554,8 +1554,13 @@ let wgpu-print-frag-shader = intrinsic
 		local format = require "format"
 		return function(frag_shader, _valid)
 			local param_name, code, capture, _capture_dbg, _param_debug = frag_shader:unwrap_closure()
+			local context = terms.PrettyprintingContext.new()
+			for _, name in ipairs({"pos", "PosDim", "DimBorderBlur", "Corners", "Fill", "Outline"}) do
+				context = context:append(name)
+			end
 			local elements = code:unwrap_tuple_cons()
-			local glfragcolor = elements[1]:glsl_print({{}, {"pos", "PosDim", "DimBorderBlur", "Corners", "Fill", "Outline"}})
+			local glfragcolor_term = elements[1]
+			local glfragcolor = glfragcolor_term:glsl_print(context)
 			local boilerplate = "@group(0) @binding(1)\nvar<uniform> PosDim: vec4f;\n@group(0) @binding(2) \nvar<uniform> DimBorderBlur: vec4f;\n@group(0) @binding(3) \nvar<uniform> Corners: vec4f;\n@group(0) @binding(4) \nvar<uniform> Fill: vec4f;\n@group(0) @binding(5) \nvar<uniform> Outline: vec4f;"
 			local frag_shader = boilerplate .. "@fragment \nfn main(@location(0) pos: vec2f) -> @location(0) vec4f {\n return " .. glfragcolor .. ";\n}\n"
 			return frag_shader
@@ -1575,7 +1580,7 @@ let rectangle = lambda (samplePosition : wgpu-vec2, halfSize : wgpu-vec2, edges 
 	let componentWiseEdgeDistance = add-vec2
 		sub-vec2(abs-vec2(samplePosition), halfSize)
 		mk-vec2(edge, edge)
-	
+
 	let (componentWiseEdgeDistance-x, componentWiseEdgeDistance-y) = split-vec2(componentWiseEdgeDistance)
 	let outsideDistance = length(mk-vec2(max(componentWiseEdgeDistance-x, 0.0), max(componentWiseEdgeDistance-y, 0.0)))
 	let insideDistance = min(max(componentWiseEdgeDistance-x, componentWiseEdgeDistance-y), 0.0)
